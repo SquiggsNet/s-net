@@ -32,7 +32,7 @@ export const createTRPCContext = (opts: CreateNextContextOptions) => {
 
   return {
     prisma,
-    userId
+    userId,
   };
 };
 
@@ -88,15 +88,15 @@ export const publicProcedure = t.procedure;
 const enforceUserIsAuthed = t.middleware(async ({ ctx, next }) => {
   if (!ctx.userId) {
     throw new TRPCError({
-      code: "UNAUTHORIZED"
+      code: "UNAUTHORIZED",
     });
   }
 
   return next({
     ctx: {
-      userId: ctx.userId
-    }
-  })
-})
+      userId: ctx.userId,
+    },
+  });
+});
 
 export const privateProcedure = t.procedure.use(enforceUserIsAuthed);
